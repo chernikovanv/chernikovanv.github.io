@@ -72,9 +72,8 @@
   <button id="stopBtn" class="button">Стоп</button>
 
   <script>
-    // Пример слов, дальше дополни до 1000 любых своих слов с ударением.
-    const words = [
-    "ба", "бе", "би", "бо", "бу", "бы", "бю", "бя",
+    const syllable = [ 
+  "ба", "бе", "би", "бо", "бу", "бы", "бю", "бя",
   "ва", "ве", "ви", "во", "ву", "вы", "вю", "вя",
   "га", "ге", "ги", "го", "гу", "гы", "гю", "гя",
   "да", "де", "ди", "до", "ду", "ды", "дю", "дя",
@@ -93,7 +92,10 @@
   "ца", "це", "ци", "цо", "цу",
   "ча", "че", "чи", "чу",
   "ша", "ше", "ши", "шо", "шу",
-  "ща", "ще", "щи", "що", "щу",
+  "ща", "ще", "щи", "що", "щу"];
+
+    // Пример слов, дальше дополни до 1000 любых своих слов с ударением.
+    const words = [
     "я","ты","он","мы","вы","кто","что","дом","сад","кот",
     "ёж","рак","жук","ухо","нос","глаз","рот","сад","бак","сом",
     "лев","бык","сын","сыр","мак","сок","лес","дым","лук","мяч",
@@ -135,8 +137,12 @@
     const lengthInput = document.getElementById('lengthInput');
     
     function filterWords(maxLength) {
-      return words.filter(w => w.replace(/[\u0300-\u036f]/g, '').length <= maxLength);
-    }
+        if (maxLength === 2) {
+            const shortWords = words.filter(w => w.replace(/[\u0300-\u036f]/g, '').length <= 2);
+            return [...shortWords, ...syllable];
+        }
+        return words.filter(w => w.replace(/[\u0300-\u036f]/g, '').length <= maxLength);
+        }
     
     function getRandomWord(filteredWords) {
       return filteredWords[Math.floor(Math.random() * filteredWords.length)];
