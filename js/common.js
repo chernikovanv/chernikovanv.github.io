@@ -24,11 +24,19 @@ async function loadWords() {
 }
 
 function showError(message) {
+  const existingError = document.querySelector('.error-message');
+  if (existingError) {
+    existingError.remove();
+  }
+
   const errorDiv = document.createElement('div');
   errorDiv.className = 'error-message';
   errorDiv.textContent = message;
   document.body.appendChild(errorDiv);
-  setTimeout(() => errorDiv.remove(), 3000);
+
+  setTimeout(() => {
+    errorDiv.remove();
+  }, 3000);
 }
 
 function validateInputs(speed, maxLength) {
