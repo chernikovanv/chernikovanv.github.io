@@ -1,7 +1,7 @@
 let interval;
-let showOriginal = false;
-let currentWord = "";
-let shuffledWord = "";
+let wordIterator = null;
+let usedWords = new Set();
+let currentWordSet = [];
 
 const wordEl = document.getElementById('word');
 const originalWordEl = document.getElementById('originalWord');
@@ -10,21 +10,67 @@ const stopBtn = document.getElementById('stopBtn');
 const speedInput = document.getElementById('speedInput');
 const lengthInput = document.getElementById('lengthInput');
 
-function shuffleWord(word) {
-  const letters = word.split('');
-  for(let i = letters.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [letters[i], letters[j]] = [letters[j], letters[i]];
+// Create infinite iterator for words
+function* createWordIterator(words) {
+  // Initialize the current set of words
+  currentWordSet = [...words];
+  usedWords.clear();
+
+  while (true) {
+    // If we've used all words, reset the pool
+    if (usedWords.size >= currentWordSet.length) {
+      console.log('Resetting word pool');
+      usedWords.clear();
+    }
+
+    // Get a word that hasn't been used recently
+    let word;
+    do {
+      const index = Math.floor(Math.random() * currentWordSet.length);
+      word = currentWordSet[index];
+    } while (usedWords.has(word));
+
+    // Mark word as used
+    usedWords.add(word);
+    yield word;
   }
-  return letters.join('');
+}
+
+function shuffleWord(word) {
+  if (word.length <= 1) return word;
+
+  const letters = word.split('');
+  let shuffled;
+  let attempts = 0;
+  const maxAttempts = 10;
+
+  do {
+    // Fisher-Yates shuffle
+    for(let i = letters.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [letters[i], letters[j]] = [letters[j], letters[i]];
+    }
+    shuffled = letters.join('');
+    attempts++;
+  } while (shuffled === word && attempts < maxAttempts);
+
+  // If we couldn't get a different arrangement after max attempts,
+  // force a change by swapping the first two letters
+  if (shuffled === word && word.length > 1) {
+    [letters[0], letters[1]] = [letters[1], letters[0]];
+    shuffled = letters.join('');
+  }
+
+  return shuffled;
 }
 
 async function startShowing() {
   const speed = Math.min(parseInt(speedInput.value, 10), 999);
   const maxLength = Math.min(parseInt(lengthInput.value, 10), 5);
+  const MIN_LENGTH = 3;
 
   if (!validateInputs(speed, maxLength)) return;
-  if (maxLength < 3) {
+  if (maxLength < MIN_LENGTH) {
     showError("Для анаграмм минимальная длина слова - 3 буквы");
     return;
   }
@@ -42,57 +88,106 @@ async function startShowing() {
   lengthInput.value = maxLength;
 
   try {
-    const words = await loadWords();
-    const filteredWordSet = filterWords(words, maxLength);
+    const words = await loadAnagramWords();
+    // Filter words by maxLength (all words are already 3+ letters)
+    const filteredWordSet = words.filter(word => {
+      const len = word.replace(/[\u0300-\u036f]/g, '').length;
+      return len <= maxLength;
+    });
     
     if (filteredWordSet.length === 0) {
-      showError(`Нет слов длиной от 3 до ${maxLength} букв`);
+      showError(`Нет слов длиной до ${maxLength} букв`);
       return;
     }
 
-    const intervalMs = (60 / speed) * 1000;
-
+    // Create iterator for filtered words
+    wordIterator = createWordIterator(filteredWordSet);
+    
+    // Hide controls
     startBtn.style.display = "none";
     speedInput.style.display = "none";
     lengthInput.style.display = "none";
     document.querySelectorAll(".hint").forEach(h => h.style.display = "none");
     stopBtn.style.display = "block";
-    wordEl.style.display = "block";
-    originalWordEl.style.display = "block";
-
-    showOriginal = false;
-    nextWord(filteredWordSet);
-    interval = setInterval(() => nextWord(filteredWordSet), intervalMs);
+    
+    // Start the game cycle
+    const intervalMs = (60 / speed) * 1000;
+    startGameCycle(intervalMs);
   } catch (error) {
     showError("Произошла ошибка при запуске игры");
     console.error(error);
   }
 }
 
-function nextWord(filteredWordSet) {
-  try {
-    if (showOriginal) {
-      originalWordEl.textContent = currentWord;
+function startGameCycle(intervalMs) {
+  let cycleCount = 0;
+  
+  async function gameCycle() {
+    cycleCount++;
+    console.log(`Starting cycle ${cycleCount}`);
+    
+    try {
+      // Get next word from iterator
+      const currentWord = wordIterator.next().value;
+      console.log(`Got word: ${currentWord}`);
+      const shuffledWord = shuffleWord(currentWord);
+      console.log(`Shuffled to: ${shuffledWord}`);
+
+      // Show shuffled version
+      wordEl.style.display = "block";
       wordEl.textContent = shuffledWord;
-    } else {
-      currentWord = getRandomWord(filteredWordSet);
-      shuffledWord = shuffleWord(currentWord);
-      while (shuffledWord === currentWord) {
-        shuffledWord = shuffleWord(currentWord);
-      }
+      originalWordEl.style.display = "block";
       originalWordEl.textContent = '';
-      wordEl.textContent = shuffledWord;
+
+      // Wait interval
+      console.log(`Waiting first interval ${intervalMs}ms`);
+      await new Promise(resolve => setTimeout(resolve, intervalMs));
+      console.log('First interval complete');
+
+      // Show original version
+      originalWordEl.textContent = currentWord;
+
+      // Wait interval
+      console.log(`Waiting second interval ${intervalMs}ms`);
+      await new Promise(resolve => setTimeout(resolve, intervalMs));
+      console.log('Second interval complete');
+
+      // Clear both words
+      wordEl.textContent = '';
+      originalWordEl.textContent = '';
+
+      // Schedule next cycle if game is still running
+      const isRunning = stopBtn.style.display === "block";
+      console.log(`Game running: ${isRunning}, iterator valid: ${wordIterator !== null}`);
+      
+      if (isRunning) {
+        console.log('Scheduling next cycle');
+        requestAnimationFrame(() => gameCycle());
+      } else {
+        console.log('Game stopped, not scheduling next cycle');
+      }
+    } catch (error) {
+      console.error("Cycle error details:", {
+        cycleNumber: cycleCount,
+        error: error.message,
+        stack: error.stack,
+        iteratorState: wordIterator ? 'valid' : 'null',
+        gameState: {
+          stopButtonVisible: stopBtn.style.display,
+          wordElementVisible: wordEl.style.display,
+          originalWordVisible: originalWordEl.style.display
+        }
+      });
+      stopShowing();
     }
-    showOriginal = !showOriginal;
-  } catch (error) {
-    showError("Ошибка при показе слова");
-    console.error(error);
-    stopShowing();
   }
+
+  console.log('Starting game cycle with interval:', intervalMs);
+  gameCycle();
 }
 
 function stopShowing() {
-  clearInterval(interval);
+  wordIterator = null;
   wordEl.textContent = "";
   originalWordEl.textContent = "";
   wordEl.style.display = "none";
@@ -102,7 +197,6 @@ function stopShowing() {
   speedInput.style.display = "block";
   lengthInput.style.display = "block";
   document.querySelectorAll(".hint").forEach(h => h.style.display = "block");
-  showOriginal = false;
 }
 
 // Keyboard navigation

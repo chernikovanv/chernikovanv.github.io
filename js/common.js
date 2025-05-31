@@ -1,5 +1,6 @@
 // Cache for words
 let wordsCache = null;
+let anagramWordsCache = null;
 
 // Utility functions
 async function loadWords() {
@@ -17,6 +18,27 @@ async function loadWords() {
   } catch(e) {
     console.error('Error loading words:', e);
     showError('Ошибка загрузки файла слов: ' + e.message);
+    throw e;
+  } finally {
+    if (loadingEl) loadingEl.classList.remove('active');
+  }
+}
+
+async function loadAnagramWords() {
+  if (anagramWordsCache) return anagramWordsCache;
+  
+  const loadingEl = document.querySelector('.loading');
+  if (loadingEl) loadingEl.classList.add('active');
+  
+  try {
+    const response = await fetch('words4anagrams.txt');
+    if (!response.ok) throw new Error('Network response was not ok');
+    const text = await response.text();
+    anagramWordsCache = text.split('\n').map(w => w.trim()).filter(w => w);
+    return anagramWordsCache;
+  } catch(e) {
+    console.error('Error loading anagram words:', e);
+    showError('Ошибка загрузки файла слов для анаграмм: ' + e.message);
     throw e;
   } finally {
     if (loadingEl) loadingEl.classList.remove('active');
