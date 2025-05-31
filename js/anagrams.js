@@ -139,22 +139,23 @@ function startGameCycle(intervalMs) {
       originalWordEl.style.display = "block";
       originalWordEl.textContent = '';
 
-      // Wait interval
+      // Wait interval based on speed
       console.log(`Waiting first interval ${intervalMs}ms`);
       await new Promise(resolve => setTimeout(resolve, intervalMs));
       console.log('First interval complete');
 
-      // Show original version
+      // Show original version for exactly 1 second
       originalWordEl.textContent = currentWord;
-
-      // Wait interval
-      console.log(`Waiting second interval ${intervalMs}ms`);
-      await new Promise(resolve => setTimeout(resolve, intervalMs));
-      console.log('Second interval complete');
+      console.log('Showing original word for 1 second');
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      console.log('Original word display complete');
 
       // Clear both words
       wordEl.textContent = '';
       originalWordEl.textContent = '';
+
+      // Add a small pause between words
+      await new Promise(resolve => setTimeout(resolve, 200));
 
       // Schedule next cycle if game is still running
       const isRunning = stopBtn.style.display === "block";

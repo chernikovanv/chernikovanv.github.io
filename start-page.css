@@ -1,0 +1,93 @@
+/* Start page specific styles */
+.game-start-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: 100vh;
+  max-height: -webkit-fill-available;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  box-sizing: border-box;
+}
+
+.game-start-page .content-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  margin: auto;
+  width: 100%;
+  max-width: 600px;
+  gap: 20px;
+}
+
+.game-start-page .controls {
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.game-start-page .game-button {
+  width: 100%;
+  max-width: 250px;
+  font-size: 24px;
+  padding: 15px 30px;
+  margin: 0;
+}
+
+.game-start-page input[type="number"] {
+  width: 100%;
+  max-width: 220px;
+  font-size: 18px;
+  padding: 12px;
+  margin: 0;
+  text-align: center;
+}
+
+.game-start-page .hint {
+  font-size: 14px;
+  margin: 0;
+  text-align: center;
+  color: #666;
+}
+
+/* Mobile Safari specific adjustments */
+@supports (-webkit-touch-callout: none) {
+  .game-start-page {
+    height: -webkit-fill-available;
+  }
+  
+  .game-start-page .content-container {
+    padding-top: max(20px, env(safe-area-inset-top));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Landscape mode adjustments */
+@media screen and (orientation: landscape) {
+  .game-start-page .controls {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 600px;
+  }
+  
+  .game-start-page .game-button {
+    flex: 0 1 auto;
+  }
+  
+  .game-start-page input[type="number"] {
+    flex: 0 1 150px;
+  }
+  
+  .game-start-page .hint {
+    flex: 0 1 150px;
+  }
+} 
