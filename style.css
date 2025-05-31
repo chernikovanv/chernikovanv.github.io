@@ -528,3 +528,13 @@ input[type="number"] {
   text-align: center;
   margin: 0;
 }
+
+.version-number {
+  position: fixed;
+  top: max(env(safe-area-inset-top, 10px), 10px);
+  right: 20px;
+  font-size: 14px;
+  color: #666;
+  z-index: 100;
+  font-family: -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
+}
