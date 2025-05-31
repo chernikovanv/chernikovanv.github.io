@@ -1,1 +1,42 @@
-Hello World
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Главная страница</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .button-link {
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <nav class="menu-container" role="navigation" aria-label="Основная навигация">
+    <a href="слова.html" class="menu-link">
+      <button class="button menu-button" aria-label="Перейти к тренажеру слов">Слова</button>
+    </a>
+    <a href="анаграммы.html" class="menu-link">
+      <button class="button menu-button" aria-label="Перейти к тренажеру анаграмм">Анаграммы</button>
+    </a>
+  </nav>
+</body>
+</html>

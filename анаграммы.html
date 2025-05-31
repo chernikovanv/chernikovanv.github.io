@@ -2,27 +2,23 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Слова</title>
+  <title>Слова и анаграммы</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
-
-  <!-- Подключаем CSS -->
   <link rel="stylesheet" href="style.css">
-
-  <!-- JS с данными -->
   <script src="data.js"></script>
   <script src="js/common.js"></script>
-  <script src="js/words.js" defer></script>
+  <script src="js/anagrams.js" defer></script>
 </head>
-<body class="words-game">
-  <!-- Стрелка назад -->
+<body class="anagrams-game">
   <a href="./index.html" class="back-arrow" aria-label="Вернуться на главную">←</a>
 
   <div class="content-container">
-    <div class="word-container">
-      <div id="word" aria-live="polite" aria-label="Текущее слово"></div>
+    <div id="wordContainer" aria-live="polite">
+      <div id="originalWord" aria-label="Исходное слово"></div>
+      <div id="word" aria-label="Анаграмма"></div>
     </div>
 
     <div class="controls">
@@ -31,7 +27,7 @@
       <input type="number" id="speedInput" value="20" min="1" max="999" size="3" maxlength="3" aria-label="Скорость показа слов в минуту">
       <div class="hint">Количество слов в минуту</div>
 
-      <input type="number" id="lengthInput" value="5" min="1" max="5" size="3" maxlength="1" aria-label="Максимальное количество букв в слове">
+      <input type="number" id="lengthInput" value="5" min="3" max="5" size="3" maxlength="1" aria-label="Максимальное количество букв в слове">
       <div class="hint">Количество букв (максимум)</div>
 
       <button id="stopBtn" class="button game-button" aria-label="Остановить игру">Стоп</button>
@@ -42,25 +38,42 @@
 
   <script>
     let interval;
+    let showOriginal = false;
+    let currentWord = "";
+    let shuffledWord = "";
 
     const wordEl = document.getElementById('word');
+    const originalWordEl = document.getElementById('originalWord');
     const startBtn = document.getElementById('startBtn');
     const stopBtn = document.getElementById('stopBtn');
     const speedInput = document.getElementById('speedInput');
     const lengthInput = document.getElementById('lengthInput');
+
+    function shuffleWord(word) {
+      const letters = word.split('');
+      for(let i = letters.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [letters[i], letters[j]] = [letters[j], letters[i]];
+      }
+      return letters.join('');
+    }
 
     async function startShowing() {
       const speed = parseInt(speedInput.value, 10);
       const maxLength = parseInt(lengthInput.value, 10);
 
       if (!validateInputs(speed, maxLength)) return;
+      if (maxLength < 3) {
+        showError("Для анаграмм минимальная длина слова - 3 буквы");
+        return;
+      }
 
       try {
         const words = await loadWords();
-        const filteredWordSet = filterWords(words, maxLength, true);
-
+        const filteredWordSet = filterWords(words, maxLength);
+        
         if (filteredWordSet.length === 0) {
-          showError(`Нет слов длиной ${maxLength} букв и менее`);
+          showError(`Нет слов длиной от 3 до ${maxLength} букв`);
           return;
         }
 
@@ -71,34 +84,45 @@
         lengthInput.style.display = "none";
         document.querySelectorAll(".hint").forEach(h => h.style.display = "none");
         stopBtn.style.display = "block";
-        wordEl.style.display = "block";
 
-        showWord(filteredWordSet);
-        interval = setInterval(() => showWord(filteredWordSet), intervalMs);
+        showOriginal = false;
+        nextWord(filteredWordSet);
+        interval = setInterval(() => nextWord(filteredWordSet), intervalMs);
       } catch (error) {
         showError("Произошла ошибка при запуске игры");
         console.error(error);
       }
     }
 
-    function stopShowing() {
-      clearInterval(interval);
-      wordEl.style.display = "none";
-      stopBtn.style.display = "none";
-      startBtn.style.display = "block";
-      speedInput.style.display = "block";
-      lengthInput.style.display = "block";
-      document.querySelectorAll(".hint").forEach(h => h.style.display = "block");
-    }
-
-    function showWord(filteredWordSet) {
+    function nextWord(filteredWordSet) {
       try {
-        wordEl.textContent = getRandomWord(filteredWordSet);
+        if (showOriginal) {
+          originalWordEl.textContent = currentWord;
+          wordEl.textContent = shuffledWord;
+        } else {
+          currentWord = getRandomWord(filteredWordSet);
+          shuffledWord = shuffleWord(currentWord);
+          originalWordEl.textContent = '';
+          wordEl.textContent = shuffledWord;
+        }
+        showOriginal = !showOriginal;
       } catch (error) {
         showError("Ошибка при показе слова");
         console.error(error);
         stopShowing();
       }
+    }
+
+    function stopShowing() {
+      clearInterval(interval);
+      wordEl.textContent = "";
+      originalWordEl.textContent = "";
+      stopBtn.style.display = "none";
+      startBtn.style.display = "block";
+      speedInput.style.display = "block";
+      lengthInput.style.display = "block";
+      document.querySelectorAll(".hint").forEach(h => h.style.display = "block");
+      showOriginal = false;
     }
 
     // Keyboard navigation
