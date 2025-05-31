@@ -699,55 +699,76 @@ input[type="number"] {
   }
 }
 
-/* iOS Safari specific game start page fixes */
+/* iOS Safari specific game start page fixes - new approach */
 @supports (-webkit-touch-callout: none) {
+  .words-game,
+  .anagrams-game {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    display: flex;
+    flex-direction: column;
+  }
+
   .words-game .content-container,
   .anagrams-game .content-container {
-    min-height: -webkit-fill-available;
-    height: auto !important;
-    padding-top: max(env(safe-area-inset-top, 44px), 44px);
-    padding-bottom: max(env(safe-area-inset-bottom, 20px), 20px);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: max(env(safe-area-inset-top, 44px), 44px) 20px max(env(safe-area-inset-bottom, 20px), 20px);
+    height: auto;
+    min-height: 0;
+  }
+
+  .words-game .word-container,
+  .anagrams-game #wordContainer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    min-height: 0;
   }
 
   .words-game .controls,
   .anagrams-game .controls {
-    position: relative;
+    position: static;
     width: 100%;
-    padding: 20px;
-    margin-top: auto;
-    background: #f9f9fc;
+    padding: 0;
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
+    background: none;
+    box-shadow: none;
   }
 
-  /* Ensure proper spacing around controls */
   .words-game .game-button,
   .anagrams-game .game-button {
-    margin: 5px 0;
+    width: min(250px, 80vw);
     height: 44px;
-    min-height: 44px;
+    margin: 0;
+    font-size: 18px;
   }
 
   .words-game input[type="number"],
   .anagrams-game input[type="number"] {
-    margin: 5px 0;
+    width: 80px;
     height: 44px;
-    min-height: 44px;
+    font-size: 16px;
+    margin: 0;
   }
 
   .words-game .hint,
   .anagrams-game .hint {
-    margin: 5px 0;
+    font-size: 14px;
+    margin: 0;
   }
 
-  /* Ensure back arrow and version are always visible */
   .words-game .back-arrow,
   .anagrams-game .back-arrow {
-    position: fixed;
+    position: absolute;
     top: max(env(safe-area-inset-top, 10px), 10px);
     left: 15px;
     z-index: 100;
@@ -755,30 +776,21 @@ input[type="number"] {
 
   .words-game .version-number,
   .anagrams-game .version-number {
-    position: fixed;
+    position: absolute;
     top: max(env(safe-area-inset-top, 10px), 10px);
     right: 15px;
     z-index: 100;
   }
 
-  /* Add padding for fixed elements */
-  .words-game .word-container,
-  .anagrams-game #wordContainer {
-    padding-top: 60px;
-  }
-
-  /* Game running state adjustments */
+  /* Game running state */
   .words-game.game-running .controls,
   .anagrams-game.game-running .controls {
     position: fixed;
     bottom: 0;
     left: 0;
-    padding-bottom: max(env(safe-area-inset-bottom, 20px), 20px);
+    width: 100%;
+    padding: 20px 20px max(env(safe-area-inset-bottom, 20px), 20px);
+    background: #f9f9fc;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  }
-
-  .words-game.game-running .content-container,
-  .anagrams-game.game-running .content-container {
-    overflow: hidden;
   }
 }
