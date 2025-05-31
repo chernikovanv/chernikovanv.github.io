@@ -1,10 +1,12 @@
 html, body {
     height: 100%;
     margin: 0;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
   }
   
   body {
-    font-family: 'Arial', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
     background-color: #f9f9fc;
     color: #333;
     margin: 0;
@@ -25,6 +27,7 @@ html, body {
     flex: 1;
     position: relative;
     padding: 20px;
+    box-sizing: border-box;
   }
 
   .controls {
@@ -34,6 +37,8 @@ html, body {
     width: 100%;
     max-width: 400px;
     margin-top: 40px;
+    padding: 0 20px;
+    box-sizing: border-box;
   }
   
   /* Common button styles */
@@ -42,16 +47,18 @@ html, body {
     cursor: pointer;
     border-radius: 10px;
     transition: transform 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   
   /* Index page buttons */
   .menu-button {
-    font-size: 36px;
+    font-size: clamp(24px, 5vw, 36px);
     padding: 20px 48px;
     background-color: #2c3e50;
     color: white;
     margin: 15px 0;
-    width: 300px;
+    width: min(300px, 90vw);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
@@ -64,12 +71,13 @@ html, body {
   
   /* Game page buttons */
   .game-button {
-    font-size: 32px;
+    font-size: clamp(20px, 4vw, 32px);
     padding: 12px 36px;
     background-color: #2c3e50;
     color: white;
     margin-bottom: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: min(250px, 80vw);
   }
   
   .game-button:hover,
@@ -81,6 +89,10 @@ html, body {
   
   .game-button:focus-visible {
     outline: 3px solid #4a90e2;
+  }
+  
+  .button:active {
+    transform: scale(0.95);
   }
   
   /* Menu container for index page */
@@ -140,21 +152,19 @@ html, body {
     position: fixed;
     top: 20px;
     left: 20px;
-    font-size: 50px;
+    font-size: clamp(40px, 8vw, 50px);
     color: #2c3e50;
     text-decoration: none;
     cursor: pointer;
-    transition: transform 0.2s;
     user-select: none;
     -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     z-index: 100;
     width: 50px;
     height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .back-arrow:hover,
@@ -162,6 +172,10 @@ html, body {
     transform: scale(1.2);
     outline: none;
     color: #34495e;
+  }
+
+  .back-arrow:active {
+    transform: scale(0.9);
   }
 
   #wordContainer {
@@ -186,7 +200,7 @@ html, body {
 
   .error-message {
     position: fixed;
-    top: 20px;
+    top: env(safe-area-inset-top, 20px);
     left: 50%;
     transform: translateX(-50%);
     background-color: #ff5252;
@@ -195,6 +209,8 @@ html, body {
     border-radius: 8px;
     z-index: 1000;
     animation: slideDown 0.3s ease-out;
+    width: min(80vw, 300px);
+    text-align: center;
   }
 
   .loading {
@@ -208,6 +224,7 @@ html, body {
     border-radius: 10px;
     display: none;
     z-index: 1000;
+    font-size: clamp(16px, 3vw, 18px);
   }
 
   .loading.active {
@@ -395,4 +412,56 @@ html, body {
 
   .index-page .menu-link {
     text-decoration: none;
+  }
+
+  /* iOS-specific adjustments */
+  @supports (-webkit-touch-callout: none) {
+    .content-container {
+      padding-top: env(safe-area-inset-top, 20px);
+      padding-bottom: env(safe-area-inset-bottom, 20px);
+    }
+    
+    .back-arrow {
+      top: max(env(safe-area-inset-top, 20px), 20px);
+    }
+
+    input[type="number"] {
+      font-size: 16px; /* Prevents zoom on iOS */
+    }
+  }
+
+  /* Landscape orientation adjustments */
+  @media screen and (orientation: landscape) and (max-height: 500px) {
+    .menu-button {
+      font-size: clamp(20px, 4vw, 28px);
+      padding: 15px 36px;
+      margin: 10px 0;
+    }
+
+    .words-game #word,
+    .anagrams-game #word,
+    .anagrams-game #originalWord {
+      font-size: clamp(30px, 10vw, 60px);
+    }
+
+    .controls {
+      margin-top: 20px;
+    }
+
+    .game-button {
+      font-size: clamp(18px, 3vw, 24px);
+      padding: 8px 24px;
+      margin-bottom: 8px;
+    }
+  }
+
+  /* Prevent text selection */
+  * {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  input, textarea {
+    -webkit-user-select: text;
+    user-select: text;
   }
