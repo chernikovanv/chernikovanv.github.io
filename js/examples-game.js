@@ -108,8 +108,28 @@ function generateNewProblem() {
   const digits = parseInt(localStorage.getItem('mathGameDigits') || '1', 10);
   currentProblem = new MathProblem(digits);
   userInput = '';
+  
+  // Update display class based on digits
+  const problemDisplay = document.getElementById('problemDisplay');
+  problemDisplay.className = 'problem-display';
+  if (window.innerWidth <= 480) { // Only add class on mobile
+    problemDisplay.classList.add(`digits-${digits}`);
+  }
+  
   updateDisplay();
 }
+
+// Add window resize handler
+window.addEventListener('resize', () => {
+  if (!currentProblem) return;
+  
+  const digits = parseInt(localStorage.getItem('mathGameDigits') || '1', 10);
+  const problemDisplay = document.getElementById('problemDisplay');
+  problemDisplay.className = 'problem-display';
+  if (window.innerWidth <= 480) {
+    problemDisplay.classList.add(`digits-${digits}`);
+  }
+});
 
 // Initialize game when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {

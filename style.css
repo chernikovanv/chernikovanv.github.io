@@ -959,6 +959,17 @@ input[type="number"] {
 
   .problem-display {
     font-size: 60px;
-    max-width: 90%;
+    max-width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  .problem-display.digits-3 {
+    font-size: 40px;
+  }
+
+  .problem-display.digits-2 {
+    font-size: 50px;
   }
 }
