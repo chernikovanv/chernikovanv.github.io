@@ -205,7 +205,7 @@ input:focus {
   top: max(env(safe-area-inset-top, 20px), 20px);
   left: 50%;
   transform: translateX(-50%);
-  background-color: #ff5252;
+  background-color: #dc3545;
   color: white;
   padding: 12px 24px;
   border-radius: 8px;
@@ -213,6 +213,7 @@ input:focus {
   animation: slideDown 0.3s ease-out;
   width: min(80vw, 300px);
   text-align: center;
+  font-size: 16px;
 }
 
 .loading {
@@ -792,5 +793,172 @@ input[type="number"] {
     padding: 20px 20px max(env(safe-area-inset-bottom, 20px), 20px);
     background: #f9f9fc;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Examples Start Page Styles */
+.examples-start-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.examples-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.examples-input {
+  width: 60px;
+  height: 20px;
+  font-size: 16px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 8px;
+}
+
+.examples-input:focus {
+  outline: 2px solid #4a90e2;
+  border-color: #4a90e2;
+}
+
+.examples-start-button {
+  width: 100%;
+  max-width: 300px;
+  height: 80px;
+  font-size: 32px;
+  color: #fff;
+  background-color: #2c3e50;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.examples-start-button:hover {
+  background-color: #34495e;
+}
+
+.examples-hint {
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+  margin-top: 5px;
+}
+
+@media (max-width: 480px) {
+  .examples-start-button {
+    font-size: 24px;
+    height: 60px;
+  }
+
+  .examples-input {
+    width: 60px;
+    height: 44px;
+    font-size: 16px;
+  }
+}
+
+/* Examples Game Page Styles */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.problem-display {
+  font-size: 80px;
+  margin: 20px auto;
+  min-height: 48px;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+  white-space: nowrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.problem-display span {
+  display: inline-block;
+}
+
+.calculator-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 300px;
+  margin: 20px auto;
+}
+
+.calculator-button {
+  padding: 15px;
+  font-size: 24px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  min-height: 60px;
+  touch-action: manipulation;
+}
+
+.calculator-button:active {
+  background-color: #e9ecef;
+}
+
+.user-input {
+  color: #000;
+  transition: color 0.3s ease;
+  display: inline-flex;
+  letter-spacing: 0;
+  font-family: monospace;
+  justify-content: flex-start;
+}
+
+.user-input span {
+  min-width: 0.6em;
+  display: inline-block;
+  text-align: center;
+}
+
+.user-input.correct {
+  color: #28a745;
+}
+
+.user-input.incorrect {
+  color: #dc3545;
+}
+
+@media screen and (max-width: 480px) {
+  .examples-start-button {
+    font-size: 24px;
+    height: 60px;
+  }
+
+  .examples-input {
+    width: 60px;
+    height: 20px;
+    font-size: 16px;
+  }
+
+  .problem-display {
+    font-size: 60px;
+    max-width: 90%;
   }
 }
