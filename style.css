@@ -908,14 +908,32 @@ input[type="number"] {
 }
 
 .calculator-button {
-  padding: 15px;
+  padding: 18.15px;
   font-size: 24px;
   border: 2px solid #ccc;
   border-radius: 8px;
   background-color: #f8f9fa;
   cursor: pointer;
-  min-height: 60px;
+  min-height: 72.6px;
   touch-action: manipulation;
+}
+
+.calculator-button[data-value="C"] {
+  background-color: #ffb38a;
+  border-color: #ffa575;
+}
+
+.calculator-button[data-value="C"]:active {
+  background-color: #ffa575;
+}
+
+.calculator-button[data-value="enter"] {
+  background-color: #98d8a0;
+  border-color: #88c990;
+}
+
+.calculator-button[data-value="enter"]:active {
+  background-color: #88c990;
 }
 
 .calculator-button:active {
