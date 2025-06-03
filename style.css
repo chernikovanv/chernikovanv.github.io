@@ -614,6 +614,25 @@ input[type="number"] {
     box-sizing: border-box;
   }
 
+  /* Add mobile-specific button colors */
+  .mobile-game-page .calculator-button[data-value="C"] {
+    background-color: #ffb38a;
+    border-color: #ffa575;
+  }
+
+  .mobile-game-page .calculator-button[data-value="C"]:active {
+    background-color: #ffa575;
+  }
+
+  .mobile-game-page .calculator-button[data-value="enter"] {
+    background-color: #98d8a0;
+    border-color: #88c990;
+  }
+
+  .mobile-game-page .calculator-button[data-value="enter"]:active {
+    background-color: #88c990;
+  }
+
   .mobile-game-page .content-container {
     height: 100%;
     min-height: -webkit-fill-available;
