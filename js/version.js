@@ -1,5 +1,5 @@
 // Версия приложения
-const APP_VERSION = 'v1.4.10';
+const APP_VERSION = 'v1.4.12';
 
 // Устанавливаем версию при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
