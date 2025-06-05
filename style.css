@@ -125,6 +125,9 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
+  font-feature-settings: "mark" 1;
+  text-rendering: optimizeLegibility;
 }
 
 #stopBtn {
@@ -1137,4 +1140,47 @@ input[type="number"] {
     box-shadow: none;
     border: none;
   }
+}
+
+/* Добавляем специальные стили для ударений */
+[data-word-display] {
+  font-feature-settings: "mark" 1;
+  text-rendering: optimizeLegibility;
+}
+
+/* Стили для комбинированных символов */
+.combining-marks {
+  font-feature-settings: "mark" 1;
+  text-rendering: optimizeLegibility;
+}
+
+.word-with-stress {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.letter {
+  position: relative;
+  display: inline-block;
+}
+
+.stress-mark {
+  position: absolute;
+  top: -0.01em;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.9em;
+  line-height: 1;
+  color: inherit;
+}
+
+#word {
+  font-size: 80px;
+  display: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  text-align: center;
 }
