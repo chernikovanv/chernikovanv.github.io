@@ -3,39 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Слова и анаграммы</title>
+  <title>Анаграммы</title>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-vvt4KWwuNr51XfE5m+hzeNEGhiOfZzG97ccfqGsPwvE='">
   <link rel="stylesheet" href="style.css">
-  <script src="data.js"></script>
+  <script src="js/version.js"></script>
   <script src="js/common.js"></script>
   <script src="js/anagrams.js" defer></script>
 </head>
-<body class="anagrams-game mobile-game-page mobile-anagrams-game">
+<body class="examples-start-page">
   <a href="./index.html" class="back-arrow" aria-label="Вернуться на главную">←</a>
-  <div class="version-number">v1.4.4</div>
+  <div class="version-number"></div>
 
-  <div class="content-container">
-    <div id="wordContainer" aria-live="polite">
-      <div id="originalWord" aria-label="Исходное слово"></div>
-      <div id="word" aria-label="Анаграмма"></div>
-    </div>
+  <div class="examples-controls">
+    <button id="startBtn" 
+            class="examples-start-button" 
+            aria-label="Начать игру">
+      Старт
+    </button>
+    <input type="number" 
+           id="speedInput" 
+           class="examples-input" 
+           value="20" 
+           min="1" 
+           max="999" 
+           aria-label="Скорость показа слов в минуту">
+    <div class="examples-hint">Количество слов в минуту</div>
 
-    <div class="controls">
-      <button id="startBtn" class="button game-button" aria-label="Начать игру">Старт</button>
-
-      <input type="number" id="speedInput" value="20" min="1" max="999" size="3" maxlength="3" aria-label="Скорость показа слов в минуту">
-      <div class="hint">Количество слов в минуту</div>
-
-      <input type="number" id="lengthInput" value="5" min="3" max="5" size="3" maxlength="1" aria-label="Максимальное количество букв в слове">
-      <div class="hint">Количество букв (максимум)</div>
-
-      <button id="stopBtn" class="button game-button" aria-label="Остановить игру">Стоп</button>
-    </div>
+    <input type="number" 
+           id="lengthInput" 
+           class="examples-input" 
+           value="5" 
+           min="3" 
+           max="5" 
+           aria-label="Количество букв в слове">
+    <div class="examples-hint">Длина слов (выберите от 3 до 5)</div>
   </div>
-
-  <div class="loading" role="status" aria-live="polite">Загрузка...</div>
 </body>
 </html>

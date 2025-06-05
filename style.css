@@ -12,7 +12,7 @@ body {
   -webkit-touch-callout: none;
   overflow: hidden;
   font-family: -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
-  background-color: #f9f9fc;
+  background-color: #f5f5f5;
   color: #333;
   display: flex;
   flex-direction: column;
@@ -27,6 +27,7 @@ body {
   height: 100%;
   position: relative;
   box-sizing: border-box;
+  border: none;
 }
 
 .controls {
@@ -39,6 +40,7 @@ body {
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
+  border: none;
 }
 
 /* Common button styles */
@@ -258,6 +260,7 @@ input:focus {
   min-height: 100vh;
   position: relative;
   overflow: hidden;
+  background-color: #f5f5f5;
 }
 
 .words-game .content-container {
@@ -265,6 +268,7 @@ input:focus {
   display: flex;
   flex-direction: column;
   position: relative;
+  background-color: #f5f5f5;
 }
 
 .words-game .word-container {
@@ -275,9 +279,12 @@ input:focus {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
+  box-shadow: none;
 }
 
 .words-game #word {
+  display: block !important;
   font-size: 80px;
   position: absolute;
   left: 50%;
@@ -288,7 +295,6 @@ input:focus {
   padding: 0;
   margin: 0;
   line-height: 1;
-  display: block;
   color: #2c3e50;
 }
 
@@ -301,7 +307,9 @@ input:focus {
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  background: #f9f9fc;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 /* Keep the back arrow and loading on top */
@@ -324,6 +332,7 @@ input:focus {
   min-height: 100vh;
   position: relative;
   overflow: hidden;
+  background-color: #f5f5f5;
 }
 
 .anagrams-game .content-container {
@@ -331,6 +340,7 @@ input:focus {
   display: flex;
   flex-direction: column;
   position: relative;
+  background-color: #f5f5f5;
 }
 
 .anagrams-game #wordContainer {
@@ -378,7 +388,9 @@ input:focus {
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  background: #f9f9fc;
+  background: transparent;
+  box-shadow: none;
+  border: none;
 }
 
 .anagrams-game input[type="number"] {
@@ -646,9 +658,9 @@ input[type="number"] {
     bottom: 0;
     left: 0;
     width: 100%;
-    background: #f9f9fc;
+    background: transparent;
     padding: 15px 20px max(15px, env(safe-area-inset-bottom));
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: none;
     z-index: 10;
   }
 
@@ -810,8 +822,8 @@ input[type="number"] {
     left: 0;
     width: 100%;
     padding: 20px 20px max(env(safe-area-inset-bottom, 20px), 20px);
-    background: #f9f9fc;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    background: transparent;
+    box-shadow: none;
   }
 }
 
@@ -1008,5 +1020,121 @@ input[type="number"] {
 
   .problem-display.digits-2 {
     font-size: 50px;
+  }
+}
+
+/* Стили для страницы настроек игры "Слова" */
+.words-start-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.words-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.words-start-button {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.2em;
+  background-color: #98d8a0;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.words-start-button:hover {
+  background-color: #7ac884;
+}
+
+.words-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.words-hint {
+  color: #666;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+/* Стили для страницы игры "Слова" */
+.words-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.word-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 200px;
+  margin-bottom: 20px;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+#word {
+  font-size: 3em;
+  font-weight: bold;
+  color: #333;
+}
+
+.loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2em;
+  color: #666;
+}
+
+/* iOS Safari specific fixes for anagrams game */
+@supports (-webkit-touch-callout: none) {
+  .anagrams-game .controls {
+    position: static;
+    width: 100%;
+    padding: 0;
+    margin-top: 20px;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+  }
+
+  .anagrams-game.game-running .controls {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 20px max(env(safe-area-inset-bottom, 20px), 20px);
+    background: transparent;
+    box-shadow: none;
+    border: none;
   }
 }

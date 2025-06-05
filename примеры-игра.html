@@ -9,31 +9,28 @@
   <meta http-equiv="Expires" content="0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-vvt4KWwuNr51XfE5m+hzeNEGhiOfZzG97ccfqGsPwvE='">
   <link rel="stylesheet" href="style.css">
-  <script src="data.js"></script>
-  <script src="js/common.js"></script>
-  <script src="js/examples-game.js" defer></script>
+  <script src="js/version.js"></script>
+  <script src="js/examples.js" defer></script>
 </head>
-<body class="examples-game mobile-game-page mobile-examples-game">
+<body class="game-container">
   <a href="./примеры.html" class="back-arrow" aria-label="Вернуться к настройкам">←</a>
-  <div class="version-number">v1.4.9</div>
+  <div class="version-number"></div>
 
-  <div class="game-container">
-    <div class="problem-display" id="problemDisplay" aria-live="polite"></div>
+  <div class="problem-display" id="problemDisplay"></div>
 
-    <div class="calculator-grid">
-      <button class="calculator-button" data-value="1">1</button>
-      <button class="calculator-button" data-value="2">2</button>
-      <button class="calculator-button" data-value="3">3</button>
-      <button class="calculator-button" data-value="4">4</button>
-      <button class="calculator-button" data-value="5">5</button>
-      <button class="calculator-button" data-value="6">6</button>
-      <button class="calculator-button" data-value="7">7</button>
-      <button class="calculator-button" data-value="8">8</button>
-      <button class="calculator-button" data-value="9">9</button>
-      <button class="calculator-button" data-value="C">C</button>
-      <button class="calculator-button" data-value="0">0</button>
-      <button class="calculator-button" data-value="enter">↵</button>
-    </div>
+  <div class="calculator-grid">
+    <button class="calculator-button" data-value="7">7</button>
+    <button class="calculator-button" data-value="8">8</button>
+    <button class="calculator-button" data-value="9">9</button>
+    <button class="calculator-button" data-value="4">4</button>
+    <button class="calculator-button" data-value="5">5</button>
+    <button class="calculator-button" data-value="6">6</button>
+    <button class="calculator-button" data-value="1">1</button>
+    <button class="calculator-button" data-value="2">2</button>
+    <button class="calculator-button" data-value="3">3</button>
+    <button class="calculator-button" data-value="C">C</button>
+    <button class="calculator-button" data-value="0">0</button>
+    <button class="calculator-button" data-value="enter">⏎</button>
   </div>
 </body>
 </html> 

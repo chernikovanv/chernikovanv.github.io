@@ -16,28 +16,37 @@
   <script src="data.js"></script>
   <script src="js/common.js"></script>
   <script src="js/words.js" defer></script>
+  <script src="js/version.js"></script>
+  <script src="js/words-start.js" defer></script>
 </head>
-<body class="words-game mobile-game-page mobile-words-game">
+<body class="examples-start-page">
   <!-- Стрелка назад -->
   <a href="./index.html" class="back-arrow" aria-label="Вернуться на главную">←</a>
-  <div class="version-number">v1.4.4</div>
+  <div class="version-number"></div>
 
-  <div class="content-container">
-    <div class="word-container">
-      <div id="word" aria-live="polite" aria-label="Текущее слово"></div>
-    </div>
+  <div class="examples-controls">
+    <button id="startBtn" 
+            class="examples-start-button" 
+            aria-label="Начать игру">
+      Старт
+    </button>
+    <input type="number" 
+           id="speedInput" 
+           class="examples-input" 
+           value="20" 
+           min="1" 
+           max="999" 
+           aria-label="Скорость показа слов в минуту">
+    <div class="examples-hint">Количество слов в минуту</div>
 
-    <div class="controls">
-      <button id="startBtn" class="button game-button" aria-label="Начать игру">Старт</button>
-
-      <input type="number" id="speedInput" value="20" min="1" max="999" size="3" maxlength="3" aria-label="Скорость показа слов в минуту">
-      <div class="hint">Количество слов в минуту</div>
-
-      <input type="number" id="lengthInput" value="5" min="1" max="5" size="3" maxlength="1" aria-label="Максимальное количество букв в слове">
-      <div class="hint">Количество букв (максимум)</div>
-
-      <button id="stopBtn" class="button game-button" aria-label="Остановить игру">Стоп</button>
-    </div>
+    <input type="number" 
+           id="lengthInput" 
+           class="examples-input" 
+           value="5" 
+           min="2" 
+           max="5" 
+           aria-label="Количество букв в слове">
+    <div class="examples-hint">Длина слов (выберите от 2 до 5)</div>
   </div>
 
   <div class="loading" role="status" aria-live="polite">Загрузка...</div>
