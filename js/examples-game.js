@@ -8,11 +8,12 @@ class MathProblem {
     
     this.num1 = Math.floor(Math.random() * (max - min + 1)) + min;
     this.num2 = Math.floor(Math.random() * (max - min + 1)) + min;
-    this.operation = '+'; // For now, only addition
-    
+    //this.operation = '+'; // For now, only addition
+    this.operation = Math.random() < 0.5 ? '+' : '-';
+
     // Ensure numbers are properly ordered for subtraction if needed
     if (this.operation === '-' && this.num1 < this.num2) {
-      [this.num1, this.num2] = [this.num2, this.num1];
+      [this.num1, this.num2] = [this.num1+this.num2, Math.random() < 0.5 ? this.num1 : this.num2];
     }
   }
 
